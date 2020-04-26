@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import TodoList from './TodoList.js';
+import { Button, TextField } from '@material-ui/core';
+
 
 const Register = () => {
   
+  const buttonStyle = {
+    backgroundColor: '#ffffff',
+    color: '#808080',
+    margin: '15px 0'
+  }
+
   // set initial state to clear out form if registration unsuccessful 
   const initialState = {
     firstName: '',
@@ -51,43 +59,59 @@ const Register = () => {
   return ( 
     <form onSubmit={handleSubmit}>
       <div>
-        <label>First Name</label>
-        <input type="text" 
-               name="firstName" 
-               value={registerFormState.firstName} 
-               onChange={handleChange}
-               required />
-        <label>Last Name</label>
-        <input type="text" 
-               name="lastName" 
-               value={registerFormState.lastName}
-               onChange={handleChange}
-               required />
+        <TextField 
+            required id="standard-required" 
+            label="First Name" 
+            name="firstName"
+            value={registerFormState.firstName}
+            onChange={handleChange}
+            style={{margin: '0 5px 0 0'}}
+        />
+        <TextField 
+          required id="standard-required" 
+          label="Last Name" 
+          name="lastName"
+          value={registerFormState.lastName}
+          onChange={handleChange}
+          style={{margin: '0 0 0 5px'}}
+        />
       </div>
       <div>
-        <label>Email</label>
-        <input type="text" 
-               name="email" 
-               value={registerFormState.email}
-               onChange={handleChange}
-               required />
+        <TextField 
+          required id="standard-required" 
+          label="Email" 
+          name="email"
+          value={registerFormState.email}
+          onChange={handleChange}
+        />
       </div>
       <div>
-        <label>Phone</label>
-        <input type="text" 
-               name="phone" 
-               value={registerFormState.phone}
-               onChange={handleChange} />
+        {/* need to validate phone number later */}
+        <TextField 
+          id="standard-helperText" 
+          label="Phone" 
+          name="phone"
+          value={registerFormState.phone}
+          onChange={handleChange}
+          helperText="optional: if you want text reminders"
+        />
       </div>
       <div>
-        <label>Password</label>
-        <input type="password" 
-               name="password" 
-               value={registerFormState.password}
-               onChange={handleChange}
-               required />
+      <TextField
+          required id="standard-password-input"
+          label="Password"
+          type="password"
+          name="password"
+          value={registerFormState.password}
+          onChange={handleChange}
+        />
       </div>
-      <button type="submit">Register</button> 
+      <Button 
+        variant="contained" 
+        style={buttonStyle} 
+        type="submit">
+          Register
+      </Button>
     </form>
   )
 };

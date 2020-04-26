@@ -24,7 +24,7 @@ def register_form():
     first_name = user_input['firstName']
     last_name = user_input['lastName']
 
-    return f'Welcome {first_name} {last_name}!'
+    return 'Success'
 
 
 @app.route('/login', methods=['POST'])
@@ -40,8 +40,7 @@ def login():
         
     session['user'] = user_login['email']
 
-    return f'Hello {user.first_name} {user.last_name}!'
-
+    return 'Success'
 
 @app.route('/todo-list', methods=['GET'])
 def todo():

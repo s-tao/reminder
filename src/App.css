@@ -1,4 +1,15 @@
-.App {
+#root, body {
+  background: url(./img/notebook-bg.jpg);
+  background-position: 0;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+ 
+}
+
+
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +46,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
