@@ -16,13 +16,15 @@ def register_form():
     user = User.query.filter(User.email == user_input['email']).first()
 
     if user:
-        return 'User already exist, please login'
+        return 
 
     add_user(user_input)
 
     session['user'] = user_input['email']
+    first_name = user_input['firstName']
+    last_name = user_input['lastName']
 
-    return 'Account successfully created!'
+    return f'Welcome {first_name} {last_name}!'
 
 
 @app.route('/login', methods=['POST'])
@@ -33,19 +35,18 @@ def login():
     print(user_login)
     user = User.query.filter(User.email == user_login['email']).first()
 
-    if not user:
-        print('user doesn\'t exist')
-
-        return 'User does not exist'
-    
-    if user.password != user_login['password']:
-        return 'Password incorrect'
-    
+    if not user or user.password != user_login['password']:
+        return 
+        
     session['user'] = user_login['email']
-    print('success')
-    return f'Welcome {user.first_name} {user.last_name}!'
+
+    return f'Hello {user.first_name} {user.last_name}!'
 
 
+@app.route('/todo-list', methods=['GET'])
+def todo():
+    """Add tasks in todo list"""
+    pass
 
 
 if __name__ == '__main__':

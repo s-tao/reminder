@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
+import TodoList from './TodoList.js';
 
 const Login = () => {
 
-  const [loginState, setLoginState] = useState({
+  const initialState = {
     email: '',
     password: ''
-  }); 
+  }  
+
+  const [loginState, setLoginState] = useState(initialState); 
+
+  const [loginSuccess, setLoginSuccess] = useState(false);
+
 
   const handleChange = (evt) => setLoginState({
     ...loginState,
@@ -15,7 +21,7 @@ const Login = () => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(loginState);
+    // console.log(loginState);
     fetch('/login', {
       method: 'POST',
       headers: {
@@ -23,8 +29,20 @@ const Login = () => {
       },
       body: JSON.stringify(loginState)
       })
+    .then(res => {
+        if (!(res.ok)) {
+          alert('Incorrect login or password.');
+          setLoginState({...initialState})
+        }
+        else {
+          setLoginSuccess(true); 
+        }  
+    });  
   };
 
+  if (loginSuccess === true) {
+    return <TodoList />
+  }
 
   return (
     <form onSubmit={handleSubmit}>
