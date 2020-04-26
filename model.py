@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 
+
 db = SQLAlchemy()
 
 class User(db.Model):
@@ -8,6 +9,8 @@ class User(db.Model):
     __tablename__ = 'users'
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)   
+    first_name = db.Column(db.String(20), nullable=False)
+    last_name = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(15), nullable=True)
@@ -30,7 +33,10 @@ class Tasks(db.Model):
     created_date = db.Column(db.DateTime, nullable=False)
     due_date = db.Column(db.DateTime, nullable=True)
     completed = db.Column(db.Boolean, nullable=False)
-    
+    user_id = db.Column(db.Integer, 
+                        db.ForeignKey('users.user_id'), index=True)
+
+
     # Define relationship to user
     user = db.relationship('User', backref=db.backref('tasks', order_by=task_id))
 
