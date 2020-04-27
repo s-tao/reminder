@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import { Grid } from '@material-ui/core';
 import Homepage from './components/Homepage.js';
+import TodoList from './components/TodoList';
 
 function App() {
   
@@ -12,7 +13,8 @@ function App() {
           alignItems="center"
           alignContent="center"
           style={{minHeight: '100vh'}}>
-      <Homepage />
+      {/* <Homepage /> */}
+      <TodoList />
     </Grid>
   );
 }

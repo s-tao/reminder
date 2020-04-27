@@ -42,7 +42,7 @@ const Login = () => {
     .then(res => {
         if (!(res.ok)) {
           alert('Incorrect login or password.');
-          // param needs to be iterable 
+          // param needs to be iterable + clears out form  
           setLoginState({...initialState})
         }
         else {
