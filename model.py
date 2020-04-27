@@ -21,13 +21,13 @@ class User(db.Model):
         return f'<User user_id={self.user_id} email={self.email}>'
                    
 
-class Tasks(db.Model):
+class Task(db.Model):
     """Task information"""
 
     __tablename__ = 'tasks'
 
     task_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    task = db.Column(db.Text, nullable=False)
+    task_desc = db.Column(db.Text, nullable=False)
     add_notes = db.Column(db.Text, nullable=True)
     # priority = db.Column(db.String(5), nullable=False)
     created_date = db.Column(db.DateTime, nullable=False)

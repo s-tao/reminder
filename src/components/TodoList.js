@@ -3,27 +3,12 @@ import DateFnsUtils from '@date-io/date-fns';
 import { Button, TextField } from '@material-ui/core';
 import {
     MuiPickersUtilsProvider,
-    KeyboardTimePicker,
     KeyboardDatePicker,
   } from '@material-ui/pickers';
   
 
-
 const TodoList = () => {
 
-// set current date on server side when form is submitted
-//     const currDateFormat = () => {
-//     const currDate = new Date();
-//     // padStart ensures length of string will always be 2
-//     const dd = String(currDate.getDate()).padStart(2, '0'); 
-//     // +1 to Month b/c January returns 0 instead of 1
-//     const mm = String(currDate.getMonth() + 1).padStart(2, '0')
-//     const yyyy = currDate.getFullYear();
-
-//     currDate = `${yyyy}-{mm}-{dd}`
-
-//     return currDate
-//   }
   const buttonStyle = {
     backgroundColor: '#ffffff',
     color: '#808080',
@@ -33,16 +18,17 @@ const TodoList = () => {
   const taskInitialState = {
     task: '',
     addNote: '',
+    completed: false
   }
 
   const [taskForm, setTaskForm] = useState(taskInitialState);
   const [deadline, setDeadline] = useState(new Date());
-  const [completed, setCompleted] = useState(false);
-  const [formSuccess, setFormSuccess] = useState(false);
+//   const [formSuccess, setFormSuccess] = useState(false);
 
   const handleChange = (evt) => setTaskForm({
     ...taskForm,
     [evt.target.name]: evt.target.value
+    
     }
   );
 
@@ -52,10 +38,19 @@ const TodoList = () => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    fetch('/todo-list', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({taskForm, deadline})
+    })
+  
   }
 
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div>
         <TextField
           required id="standard-multiline-flexible"
@@ -106,39 +101,3 @@ const TodoList = () => {
 
 export default TodoList;
 
-// comment out all priority related items, implement in future
-
-//   const [priority, setPriority] = useState(null)
-//   const priorities = [
-//     {
-//       value: 'high',
-//       label: 'high',
-//     },
-//     {
-//       value: 'low',
-//       label: 'low',
-//     },
-//   ];
-
-//   const handlePriorityChange = (evt) => {
-//     setPriority(evt.target.value)
-//   }
-
-/* <div>
-     <TextField
-       id="standard-select-priority"
-       select
-       label="Priority"
-       value={priority}
-       onChange={handlePriorityChange}
-       helperText="Please select the task's priority level"
-      >
-      {priorities.map((option) => (
-        <MenuItem key={option.value} value={option.value}>
-          {option.label}
-        </MenuItem>
-      ))}
-     </TextField>
-   </div> */
-
-   

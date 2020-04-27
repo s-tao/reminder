@@ -1,6 +1,6 @@
 from flask import Flask, session, request, jsonify
-from model import connect_to_db, db, User, Tasks
-from model_helper import add_user
+from model import connect_to_db, db, User, Task
+from model_helper import add_user, add_task
 
 
 app = Flask(__name__)
@@ -42,10 +42,18 @@ def login():
 
     return 'Success'
 
-@app.route('/todo-list', methods=['GET'])
+@app.route('/todo-list', methods=['POST'])
 def todo():
     """Add tasks in todo list"""
-    pass
+    
+    task_info = request.get_json()
+    user_email = session.get('user')
+
+    add_task(task_info, user_email)
+
+
+
+    return 'pass'
 
 
 if __name__ == '__main__':

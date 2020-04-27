@@ -13,8 +13,8 @@ function App() {
           alignItems="center"
           alignContent="center"
           style={{minHeight: '100vh'}}>
-      {/* <Homepage /> */}
-      <TodoList />
+      <Homepage />
+      {/* <TodoList /> */}
     </Grid>
   );
 }
