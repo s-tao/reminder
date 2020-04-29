@@ -9,6 +9,10 @@ import {
   
 
 const TodoList = () => {
+  
+  const centerDiv = {
+    display: 'grid',
+  }
 
   const buttonStyle = {
     backgroundColor: '#ffffff',
@@ -25,7 +29,18 @@ const TodoList = () => {
   const [taskList, setTaskList] = useState([]);
   const [taskForm, setTaskForm] = useState(taskInitialState);
   const [deadline, setDeadline] = useState(new Date());
-  const [formSuccess, setFormSuccess] = useState(false);
+//   const [formSuccess, setFormSuccess] = useState(false);
+
+  // fetch data from server, second arg triggers when to rerun useEffect
+  // fetch + json are async functions
+  useEffect(()=> {
+    const fetchData = async () => {
+      const response = await fetch('/todo-list'); 
+      const jsonResponse = await response.json();
+      setTaskList(jsonResponse);
+    } 
+    fetchData();
+  }, []);
 
 
   const handleChange = (evt) => setTaskForm({
@@ -34,7 +49,7 @@ const TodoList = () => {
     }
   );
 
-  const handleDateChange = (date) => {
+  const handleDateChange = (date) => {   
     setDeadline(date);
   };
 
@@ -43,7 +58,7 @@ const TodoList = () => {
     evt.preventDefault();
     try {
       const userInput = {taskForm, deadline}
-      const response = await fetch('/todo-list', {
+      await fetch('/todo-list', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -52,15 +67,21 @@ const TodoList = () => {
       }); 
       // add new task to list of tasks after user submit
       setTaskList(currList => [...currList, userInput])
-    //   console.log(taskList, 'after taskList');
 
+      // reset form -> initial states
+    //   console.log(taskList, 'after taskList');
+    
        // add useEffect function here to update component 
     } catch (error) {
         console.log(`Error: ${error}`)
     } 
+
+    setTaskForm({...taskInitialState})
+    setDeadline(new Date())
   }
     
-  
+//   const [taskForm, setTaskForm] = useState(taskInitialState);
+//   const [deadline, setDeadline] = useState(new Date());
 
 
   return (
@@ -72,7 +93,7 @@ const TodoList = () => {
             alignContent="center">
     <form onSubmit={handleSubmit}>
       <div>
-        {/* can create 1 TextField to reuse */}
+        {/* can create 1 TextFieljd to reuse */}
         <TextField
           required id="standard-multiline-flexible"
           label="Task"
@@ -121,7 +142,8 @@ const TodoList = () => {
           container 
           justify="center"
           alignItems="center"
-          alignContent="center">
+          alignContent="center"
+          className="todo-container">
       <ToDoItem taskList={taskList} />
     </Grid>
     </Grid>

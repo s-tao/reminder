@@ -5,24 +5,24 @@ import {
     Paper,
     Divider,
     IconButton,
-    Checkbox,
+    // Checkbox,
     List,
     ListItem,
     ListItemText,
-    ListItemIcon,
+    // ListItemIcon,
     ListItemSecondaryAction
  } from '@material-ui/core';
 
 
 const ToDoItem = ({taskList}) => {
 
-  console.log(taskList, 'taskList @ todoItem');
+//   console.log(taskList, 'taskList @ todoItem');
 
   // create onClick listener for items selected to remove task, when clicked, 
   // send item to server to remove from database 
   // future add feature -> confirm yes before officially removing task
-  const [remove, setRemove] = useState(false);
-  const [completed, setCompleted] = useState(false);
+//   const [remove, setRemove] = useState(false);
+//   const [completed, setCompleted] = useState(false);
 
   
   if (taskList.length === 0) {
@@ -37,17 +37,16 @@ const ToDoItem = ({taskList}) => {
         <List>
           {taskList.map((task) => {
             return (
-                <>
+                <div key={task.taskForm.task}>
               <ListItem 
-                alignItems="flex-start"
-                key={task.taskForm.task}>
+                alignItems="flex-start">
    
                 <ListItemText 
                   primary={task.taskForm.task}
                   secondary={
                     <div>
                       <div>{task.taskForm.addNote ? `Additional Notes: ${task.taskForm.addNote}` : null}</div>
-                      <div>{task.deadline ? `Complete by: ${task.deadline.toDateString()}` : null}</div>
+                      <div>{task.deadline ? `Complete by: ${new Date(task.deadline).toDateString()}` : null}</div>
                     </div>
                   } />
                 <ListItemSecondaryAction>
@@ -57,7 +56,7 @@ const ToDoItem = ({taskList}) => {
                 </ListItemSecondaryAction>
               </ListItem>
               <Divider/>
-            </>
+            </div>
             )
           })}
         </List> 

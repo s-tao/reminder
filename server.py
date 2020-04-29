@@ -43,16 +43,41 @@ def login():
     return 'Success'
 
 
+@app.route('/todo-list', methods=['GET'])
+def get_todo():
+    """Get tasks from todo list database"""
+    
+    user_email = session.get('user')
+    user = User.query.filter(User.email == user_email).first()
+    user_tasks = Task.query.filter(Task.user_id == user.user_id).all()
+    # print(user_tasks, "user_tasks \n\n\n")
+
+    tasks = []
+
+    for task in user_tasks:
+        # match json format in react
+        task_dict = {}
+        task_dict['taskForm'] = {}
+
+        task_dict['taskForm']['task'] = task.task_desc
+        task_dict['taskForm']['addNote'] = task.add_notes
+        task_dict['taskForm']['completed'] = task.completed
+        task_dict['deadline'] = task.due_date
+
+        tasks.append(task_dict)
+    # print(tasks, 'tasks \n\n\n')
+
+    return jsonify(tasks)
+
+
 @app.route('/todo-list', methods=['POST'])
-def todo():
-    """Add tasks in todo list"""
+def send_todo():
+    """Add tasks in todo list database"""
     
     task_info = request.get_json()
     user_email = session.get('user')
-    print(task_info)
+    # print(task_info)
     add_task(task_info, user_email)
-
-
 
     return 'pass'
 
