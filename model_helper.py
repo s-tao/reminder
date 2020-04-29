@@ -34,4 +34,6 @@ def add_task(task_info, user_email):
     db.session.add(new_task)
     db.session.commit()
     
-    print(new_task, 'new_task \n\n')
+    # print(new_task, 'new_task \n\n')
+
+    return new_task

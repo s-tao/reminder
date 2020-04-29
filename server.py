@@ -63,6 +63,7 @@ def get_todo():
         task_dict['taskForm']['addNote'] = task.add_notes
         task_dict['taskForm']['completed'] = task.completed
         task_dict['deadline'] = task.due_date
+        task_dict['taskId'] = task.task_id
 
         tasks.append(task_dict)
     # print(tasks, 'tasks \n\n\n')
@@ -77,9 +78,9 @@ def send_todo():
     task_info = request.get_json()
     user_email = session.get('user')
     # print(task_info)
-    add_task(task_info, user_email)
+    new_task = add_task(task_info, user_email)
 
-    return 'pass'
+    return jsonify({'taskId': new_task.task_id})
 
 
 if __name__ == '__main__':

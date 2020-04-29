@@ -16,15 +16,18 @@ import {
 
 const ToDoItem = ({taskList}) => {
 
-//   console.log(taskList, 'taskList @ todoItem');
 
   // create onClick listener for items selected to remove task, when clicked, 
   // send item to server to remove from database 
   // future add feature -> confirm yes before officially removing task
-//   const [remove, setRemove] = useState(false);
+  const [remove, setRemove] = useState(false);
 //   const [completed, setCompleted] = useState(false);
-
   
+  const removeClickHandler = () => {
+    setRemove(!remove)
+    console.log(remove, 'remove')
+  }
+
   if (taskList.length === 0) {
     return (
       <p><em>You currently have no tasks to do.</em></p>
@@ -37,20 +40,19 @@ const ToDoItem = ({taskList}) => {
         <List>
           {taskList.map((task) => {
             return (
-                <div key={task.taskForm.task}>
+                <div key={task.taskId}>
               <ListItem 
                 alignItems="flex-start">
-   
                 <ListItemText 
                   primary={task.taskForm.task}
                   secondary={
-                    <div>
-                      <div>{task.taskForm.addNote ? `Additional Notes: ${task.taskForm.addNote}` : null}</div>
-                      <div>{task.deadline ? `Complete by: ${new Date(task.deadline).toDateString()}` : null}</div>
-                    </div>
+                    <span>
+                      <span>{task.taskForm.addNote ? `Additional Notes: ${task.taskForm.addNote}` : null}</span>
+                      <span>{task.deadline ? `Complete by: ${new Date(task.deadline).toDateString()}` : null}</span>
+                    </span>
                   } />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete">
+                  <IconButton edge="end" aria-label="delete" onClick={removeClickHandler}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>

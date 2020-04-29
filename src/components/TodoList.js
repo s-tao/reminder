@@ -40,6 +40,7 @@ const TodoList = () => {
       setTaskList(jsonResponse);
     } 
     fetchData();
+    // console.log('fetch: success')
   }, []);
 
 
@@ -58,31 +59,26 @@ const TodoList = () => {
     evt.preventDefault();
     try {
       const userInput = {taskForm, deadline}
-      await fetch('/todo-list', {
+      const response = await fetch('/todo-list', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(userInput)
       }); 
+      const jsonResponse = await response.json();
+      userInput['taskId'] = jsonResponse.taskId
       // add new task to list of tasks after user submit
       setTaskList(currList => [...currList, userInput])
-
-      // reset form -> initial states
-    //   console.log(taskList, 'after taskList');
-    
        // add useEffect function here to update component 
     } catch (error) {
         console.log(`Error: ${error}`)
     } 
-
+    // reset states after user submits
     setTaskForm({...taskInitialState})
     setDeadline(new Date())
   }
     
-//   const [taskForm, setTaskForm] = useState(taskInitialState);
-//   const [deadline, setDeadline] = useState(new Date());
-
 
   return (
     <Grid>
@@ -142,7 +138,7 @@ const TodoList = () => {
           container 
           justify="center"
           alignItems="center"
-          alignContent="center"
+        //   alignContent="center"
           className="todo-container">
       <ToDoItem taskList={taskList} />
     </Grid>
