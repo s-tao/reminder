@@ -43,7 +43,7 @@ class Task(db.Model):
 
     def __repr__(self):
 
-        return f'<Task task_id={self.task_id} priority={self.priority} completed={self.completed}'
+        return f'<Task task_id={self.task_id} completed={self.completed}'
 
 
 

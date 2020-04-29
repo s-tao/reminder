@@ -42,13 +42,14 @@ def login():
 
     return 'Success'
 
+
 @app.route('/todo-list', methods=['POST'])
 def todo():
     """Add tasks in todo list"""
     
     task_info = request.get_json()
     user_email = session.get('user')
-
+    print(task_info)
     add_task(task_info, user_email)
 
 

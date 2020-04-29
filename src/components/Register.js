@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import TodoList from './TodoList.js';
-import { Button, TextField } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
+import { Grid, Button, TextField } from '@material-ui/core';
 
 
 const Register = () => {
@@ -52,67 +52,84 @@ const Register = () => {
     })
   };
 
+  const history = useHistory();
+
   if (registerSuccess === true) {
-    return <TodoList />
+    // return <TodoList />
+    history.push('/todo-list')
+    console.log('Successfully logged in')
   }
 
   return ( 
-    <form onSubmit={handleSubmit}>
-      <div>
-        <TextField 
+    <Grid>
+      <Grid item xs={12}
+         container 
+          justify="center"
+          alignItems="center"
+          alignContent="center">
+        <Link to="/">
+          <p>BACK</p>
+        </Link>
+      </Grid>
+      <Grid>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <TextField 
+              required id="standard-required" 
+              label="First Name" 
+              name="firstName"
+              value={registerFormState.firstName}
+              onChange={handleChange}
+              style={{margin: '0 5px 0 0'}}
+            />
+            <TextField 
             required id="standard-required" 
-            label="First Name" 
-            name="firstName"
-            value={registerFormState.firstName}
+            label="Last Name" 
+            name="lastName"
+            value={registerFormState.lastName}
             onChange={handleChange}
-            style={{margin: '0 5px 0 0'}}
-        />
-        <TextField 
-          required id="standard-required" 
-          label="Last Name" 
-          name="lastName"
-          value={registerFormState.lastName}
-          onChange={handleChange}
-          style={{margin: '0 0 0 5px'}}
-        />
-      </div>
-      <div>
-        <TextField 
-          required id="standard-required" 
-          label="Email" 
-          name="email"
-          value={registerFormState.email}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
+            style={{margin: '0 0 0 5px'}}
+            />
+          </div>
+          <div>
+            <TextField 
+              required id="standard-required" 
+              label="Email" 
+              name="email"
+              value={registerFormState.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
         {/* need to validate phone number later */}
-        <TextField 
-          id="standard-helperText" 
-          label="Phone" 
-          name="phone"
-          value={registerFormState.phone}
-          onChange={handleChange}
-          helperText="optional: if you want text reminders"
-        />
-      </div>
-      <div>
-      <TextField
-          required id="standard-password-input"
-          label="Password"
-          type="password"
-          name="password"
-          value={registerFormState.password}
-          onChange={handleChange}
-        />
-      </div>
-      <Button 
-        variant="contained" 
-        style={buttonStyle} 
-        type="submit">
-          Register
-      </Button>
-    </form>
+            <TextField 
+              id="standard-helperText" 
+              label="Phone" 
+              name="phone"
+              value={registerFormState.phone}
+              onChange={handleChange}
+              helperText="optional: if you want text reminders"
+            />
+          </div>
+          <div>
+            <TextField
+              required id="standard-password-input"
+              label="Password"
+              type="password"
+              name="password"
+              value={registerFormState.password}
+              onChange={handleChange}
+            />
+          </div>
+          <Button 
+            variant="contained" 
+            style={buttonStyle} 
+            type="submit">
+              Register
+          </Button>
+        </form>
+      </Grid>
+    </Grid>
   )
 };
 

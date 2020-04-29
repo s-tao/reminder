@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import ToDoItem from './ToDoItem.js';
 import DateFnsUtils from '@date-io/date-fns';
-import { Button, TextField } from '@material-ui/core';
+import { Grid, Button, TextField } from '@material-ui/core';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
@@ -21,14 +22,15 @@ const TodoList = () => {
     completed: false
   }
 
+  const [taskList, setTaskList] = useState([]);
   const [taskForm, setTaskForm] = useState(taskInitialState);
   const [deadline, setDeadline] = useState(new Date());
-//   const [formSuccess, setFormSuccess] = useState(false);
+  const [formSuccess, setFormSuccess] = useState(false);
+
 
   const handleChange = (evt) => setTaskForm({
     ...taskForm,
     [evt.target.name]: evt.target.value
-    
     }
   );
 
@@ -36,22 +38,41 @@ const TodoList = () => {
     setDeadline(date);
   };
 
-  const handleSubmit = (evt) => {
+  // create an async await function 
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    fetch('/todo-list', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({taskForm, deadline})
-    })
-  
+    try {
+      const userInput = {taskForm, deadline}
+      const response = await fetch('/todo-list', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userInput)
+      }); 
+      // add new task to list of tasks after user submit
+      setTaskList(currList => [...currList, userInput])
+    //   console.log(taskList, 'after taskList');
+
+       // add useEffect function here to update component 
+    } catch (error) {
+        console.log(`Error: ${error}`)
+    } 
   }
+    
+  
 
 
   return (
+    <Grid>
+      <Grid item xs={12}
+            container 
+            justify="center"
+            alignItems="center"
+            alignContent="center">
     <form onSubmit={handleSubmit}>
       <div>
+        {/* can create 1 TextField to reuse */}
         <TextField
           required id="standard-multiline-flexible"
           label="Task"
@@ -95,7 +116,16 @@ const TodoList = () => {
           Submit
       </Button>
     </form>
-  )
+    </Grid>
+    <Grid item xs={12}
+          container 
+          justify="center"
+          alignItems="center"
+          alignContent="center">
+      <ToDoItem taskList={taskList} />
+    </Grid>
+    </Grid>
+  );
 }
     
 

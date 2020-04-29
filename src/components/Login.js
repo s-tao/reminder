@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import TodoList from './TodoList.js';
-import { Button, TextField } from '@material-ui/core';
+import { Link, Switch, Redirect } from 'react-router-dom';
+import { Grid, Button, TextField } from '@material-ui/core';
 
 const Login = () => {
   
@@ -51,38 +51,63 @@ const Login = () => {
     });  
   };
 
-  if (loginSuccess === true) {
-    return <TodoList />
-  }
+// remove history b/c it renders twice 
+//   const history = useHistory();
+
+//   if (loginSuccess === true) {
+//     // return <TodoList />
+//     history.push('/todo-list')
+//     console.log('Successfully logged in')
+//   }
+
+     if (loginSuccess === true) {
+       return ( 
+         <Switch>
+           <Redirect to={'/todo-list'}/>
+         </Switch>)
+     }    
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <TextField 
-          required id="standard-required" 
-          label="Email" 
-          name="email"
-          value={loginState.email}
-          onChange={handleChange}
-          style={{margin: '0 5px 0 0'}}
-        />
-        <TextField
-          required id="standard-password-input"
-          label="Password"
-          type="password"
-          name="password"
-          value={loginState.password}
-          onChange={handleChange}
-          style={{margin: '0 0 0 5px'}}
-        />
-      </div>
-      <Button 
-        variant="contained" 
-        style={buttonStyle} 
-        type="submit">
-          Login
-      </Button>
-    </form>
+    <Grid>
+      <Grid item xs={12}
+         container 
+          justify="center"
+          alignItems="center"
+          alignContent="center">
+        <Link to="/">
+          <p>BACK</p>
+        </Link>
+      </Grid>
+      <Grid>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <TextField 
+              required id="standard-required" 
+              label="Email" 
+              name="email"
+              value={loginState.email}
+              onChange={handleChange}
+              style={{margin: '0 5px 0 0'}}
+            />
+            <TextField
+              required id="standard-password-input"
+              label="Password"
+              type="password"
+              name="password"
+              value={loginState.password}
+              onChange={handleChange}
+              style={{margin: '0 0 0 5px'}}
+            />
+          </div>
+          <Button 
+            variant="contained" 
+            style={buttonStyle} 
+            type="submit">
+              Login
+          </Button>
+        </form>
+      </Grid>
+    </Grid>
   )
 };
 

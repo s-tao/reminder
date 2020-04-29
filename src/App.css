@@ -2,12 +2,24 @@
   background: url(./img/notebook-bg.jpg);
   background-position: 0;
   background-size: cover;
+  background-repeat: no-repeat;
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
   margin: 0;
  
 }
 
+a {
+  color: #666666;
+  text-decoration: none;
+  font-size: 14px;
+  /* font-size: 10px; */
+}
+
+a:hover {
+  text-decoration: none;
+  color: #b9b9b9;
+}
 
 /* .App {
   text-align: center;

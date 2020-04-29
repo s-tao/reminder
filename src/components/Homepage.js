@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Login from './Login.js';
 import Register from './Register.js';
+import TodoList from './TodoList.js';
 import { Grid, Button } from '@material-ui/core';
 
 const Homepage = () => {
@@ -11,18 +13,20 @@ const Homepage = () => {
     margin: '5px'
   }
 
-  const [userClick, setUserClick] = useState(null);
+//   const [userClick, setUserClick] = useState(null);
 
-  if (userClick === 'Login') {
-    return <Login />
-  }
+//   if (userClick === 'Login') {
+//     return <Login />
 
-  if (userClick === 'Register') {
-    return <Register />
-  }
+//   }
+
+//   if (userClick === 'Register') {
+//     return <Register />
+//   }
 
 
   return (
+    <Router>
     <Grid
       container
       direction="row"
@@ -36,20 +40,39 @@ const Homepage = () => {
         <h1>Reminder</h1>
       </Grid>
       <Grid>
+        <Link to="/login">
         <Button 
           variant="contained"
           style={buttonStyle}
-          onClick={() => setUserClick('Login')}>
+        //   onClick={() => setUserClick('Login')}>
+        >
             Login
         </Button>
+        </Link>
+        <Link to="/register">
         <Button 
           variant="contained"
           style={buttonStyle}
-          onClick={() => setUserClick('Register')}>
+        //   onClick={() => setUserClick('Register')}>
+        >
             Register
         </Button> 
+        </Link>
       </Grid>  
     </Grid>
+
+    <Switch>
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="/register">
+        <Register />
+      </Route>
+      <Route path="/todo-list">
+        <TodoList />
+      </Route> 
+    </Switch>
+    </Router>
   )
 };
 

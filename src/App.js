@@ -1,9 +1,8 @@
 import React from 'react';
-// import logo from './logo.svg';
 import './App.css';
 import { Grid } from '@material-ui/core';
 import Homepage from './components/Homepage.js';
-import TodoList from './components/TodoList';
+// import TodoList from './components/TodoList';
 
 function App() {
   
