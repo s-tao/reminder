@@ -10,9 +10,9 @@ import {
 
 const TodoList = () => {
   
-  const centerDiv = {
-    display: 'grid',
-  }
+//   const centerDiv = {
+//     display: 'grid',
+//   }
 
   const buttonStyle = {
     backgroundColor: '#ffffff',
@@ -79,6 +79,12 @@ const TodoList = () => {
     setDeadline(new Date())
   }
     
+  const removeTask = (taskId) => {
+    setTaskList(taskList.filter(task => task.taskId !== taskId));
+    console.log(taskId, 'taskId')
+    console.log(taskList, 'taskList')
+  }
+
 
   return (
     <Grid>
@@ -140,7 +146,7 @@ const TodoList = () => {
           alignItems="center"
         //   alignContent="center"
           className="todo-container">
-      <ToDoItem taskList={taskList} />
+      <ToDoItem taskList={taskList} removeTask={removeTask} />
     </Grid>
     </Grid>
   );
