@@ -78,11 +78,23 @@ const TodoList = () => {
     setTaskForm({...taskInitialState})
     setDeadline(new Date())
   }
-    
-  const removeTask = (taskId) => {
-    setTaskList(taskList.filter(task => task.taskId !== taskId));
-    console.log(taskId, 'taskId')
-    console.log(taskList, 'taskList')
+ 
+  // create function to remove task at parent component to pass to child
+  const removeTask = async (taskId) => {
+    try {
+      const response = await fetch('/remove-task', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: taskId
+      }); 
+      if (response.ok) {
+        setTaskList(taskList.filter(task => task.taskId !== taskId));
+      }
+    } catch (error) {
+        console.log(`Error: ${error}`)
+    }
   }
 
 
@@ -154,4 +166,7 @@ const TodoList = () => {
     
 
 export default TodoList;
+
+
+
 

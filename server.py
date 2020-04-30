@@ -1,6 +1,7 @@
 from flask import Flask, session, request, jsonify
 from model import connect_to_db, db, User, Task
-from model_helper import add_user, add_task
+from model_helper import add_user, add_task, get_user_tasks, remove_task_from_db
+from json_helpers import convert_tasks_to_json
 
 
 app = Flask(__name__)
@@ -48,26 +49,10 @@ def get_todo():
     """Get tasks from todo list database"""
     
     user_email = session.get('user')
-    user = User.query.filter(User.email == user_email).first()
-    user_tasks = Task.query.filter(Task.user_id == user.user_id).all()
-    # print(user_tasks, "user_tasks \n\n\n")
+    user_tasks = get_user_tasks(user_email)
 
-    tasks = []
-
-    for task in user_tasks:
-        # match json format in react
-        task_dict = {}
-        task_dict['taskForm'] = {}
-
-        task_dict['taskForm']['task'] = task.task_desc
-        task_dict['taskForm']['addNote'] = task.add_notes
-        task_dict['taskForm']['completed'] = task.completed
-        task_dict['deadline'] = task.due_date
-        task_dict['taskId'] = task.task_id
-
-        tasks.append(task_dict)
-    # print(tasks, 'tasks \n\n\n')
-
+    tasks = convert_tasks_to_json(user_tasks)
+    
     return jsonify(tasks)
 
 
@@ -81,6 +66,17 @@ def send_todo():
     new_task = add_task(task_info, user_email)
 
     return jsonify({'taskId': new_task.task_id})
+
+
+@app.route('/remove-task', methods=['POST'])
+def remove_task():
+    """Remove task from database"""
+
+    task_id = request.get_json()
+    remove_task_from_db(task_id)
+
+    # need to confirm if remove_task_from_db successfully ran
+    return 'Success'
 
 
 if __name__ == '__main__':

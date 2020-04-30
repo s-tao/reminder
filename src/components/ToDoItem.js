@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { 
-    Grid,
-    Button, 
+    Grid, 
     Paper,
     Divider,
     IconButton,
@@ -22,34 +16,13 @@ import {
 
 const ToDoItem = ({taskList, removeTask}) => {
 
-  const [open, setOpen] = useState(false);  
-  const [confirmRemove, setConfirmRemove] = useState(false);
-
+  // future add feature -> confirm yes before officially removing task
 //   const [completed, setCompleted] = useState(false);
   
-  // handles function from parent component, passes selected taskId back 
+  // handles function from parent component, passes selected taskId back
   const removeClickHandler = (taskId) => {
-    console.log(taskId, 'taskId')
     removeTask(taskId);
-    setConfirmRemove(false);
-    closeDialogBox();
   }
-
-  const openDialogBox = (taskId) => {
-    setOpen(true)
-    console.log(taskId, 'taskId')
-
-    if (confirmRemove === true) {
-      console.log('this ran')
-      removeClickHandler(taskId);
-
-    }
-  }
-  console.log(confirmRemove, 'confirmRemove')
-  const closeDialogBox = () => {
-    setOpen(false)
-    // console.log(confirmRemove, 'confirmRemove false')
-  } 
 
   if (taskList.length === 0) {
     return (
@@ -60,18 +33,21 @@ const ToDoItem = ({taskList, removeTask}) => {
   return (
     <Grid item xs={12} md={12}>
       <Paper elevation={2}>
-        <List>
+        <List component={'div'}>
           {taskList.map((task) => {
             return (
               <div key={task.taskId}>
                 <ListItem 
-                  alignItems="flex-start">
+                  alignItems="flex-start"
+                  component={'div'}>
                   <ListItemText 
+                    component={'div'}
                     primary={task.taskForm.task}
                     secondary={
                     <span>
                       <span>
-                        {task.taskForm.addNote ? `Additional Notes: ${task.taskForm.addNote}` : null}
+                        {task.taskForm.addNote ? (`Additional Notes: ${task.taskForm.addNote}`) : null}
+                        {task.taskForm.addNote ? <br></br> : null}
                       </span>
                       <span>
                         {task.deadline ? `Complete by: ${new Date(task.deadline).toDateString()}` : null}
@@ -81,7 +57,7 @@ const ToDoItem = ({taskList, removeTask}) => {
                 <ListItemSecondaryAction>
                   <IconButton edge="end" 
                               aria-label="delete" 
-                              onClick={() => openDialogBox(task.taskId)}>
+                              onClick={() => removeClickHandler(task.taskId)}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -92,29 +68,6 @@ const ToDoItem = ({taskList, removeTask}) => {
           })}
         </List> 
       </Paper>
-      <Dialog
-        open={open}
-        // onClose={triggerClickHandler}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
-      <DialogTitle id="alert-dialog-title">
-        {"Are you sure you want to remove this task"}
-      </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Once confirmed, task will be removed from your to-do list. You will 
-            have to re-enter the task item again if you change your mind. 
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeDialogBox} color="primary">
-            No
-          </Button>
-          <Button onClick={() => setConfirmRemove(true)} color="primary" autoFocus>
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Grid>
   )
 

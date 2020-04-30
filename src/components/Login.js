@@ -33,7 +33,7 @@ const Login = () => {
     evt.preventDefault();
     // console.log(loginState);
     fetch('/login', {
-      method: 'POST',
+          method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },

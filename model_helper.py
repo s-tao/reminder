@@ -37,3 +37,18 @@ def add_task(task_info, user_email):
     # print(new_task, 'new_task \n\n')
 
     return new_task
+
+
+def get_user_tasks(user_email):
+    user = User.query.filter(User.email == user_email).first()
+    user_tasks = Task.query.filter(Task.user_id == user.user_id).all()
+
+    return user_tasks
+
+
+def remove_task_from_db(task_id):
+    """Remove task from database"""
+
+    Task.query.filter(Task.task_id == task_id).delete()
+
+    db.session.commit()
