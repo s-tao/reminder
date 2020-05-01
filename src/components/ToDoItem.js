@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Link } from 'react-router-dom';
+// import Typography from '@material-ui/core/Typography';
 import { 
     Grid, 
     Paper,
     Divider,
     IconButton,
-    // Checkbox,
+    Checkbox,
     List,
     ListItem,
     ListItemText,
@@ -14,14 +16,16 @@ import {
  } from '@material-ui/core';
 
 
-const ToDoItem = ({taskList, removeTask}) => {
+const ToDoItem = ({taskList, removeTask, completedTask}) => {
 
-  // future add feature -> confirm yes before officially removing task
-//   const [completed, setCompleted] = useState(false);
-  
+  console.log(taskList, 'taskList')
   // handles function from parent component, passes selected taskId back
   const removeClickHandler = (taskId) => {
     removeTask(taskId);
+  }
+
+  const checkHandler = (taskId) => {
+    completedTask(taskId);
   }
 
   if (taskList.length === 0) {
@@ -31,17 +35,16 @@ const ToDoItem = ({taskList, removeTask}) => {
   }
   
   return (
-    <Grid item xs={12} md={12}>
+    <Grid item xs={12} md={12} > 
       <Paper elevation={2}>
-        <List component={'div'}>
+        <List>
           {taskList.map((task) => {
             return (
               <div key={task.taskId}>
                 <ListItem 
-                  alignItems="flex-start"
-                  component={'div'}>
+                  alignItems="flex-start">
                   <ListItemText 
-                    component={'div'}
+                    style={{wordWrap: 'break-word', maxWidth: '90%'}}
                     primary={task.taskForm.task}
                     secondary={
                     <span>
@@ -55,6 +58,13 @@ const ToDoItem = ({taskList, removeTask}) => {
                     </span>
                   } />
                 <ListItemSecondaryAction>
+                <Checkbox
+                  edge="end"
+                  color="primary"
+                //   checked={task.taskId}
+                  onClick={()=> checkHandler(task.taskId)}
+                // inputProps={{ 'aria-labelledby': labelId }}
+              />
                   <IconButton edge="end" 
                               aria-label="delete" 
                               onClick={() => removeClickHandler(task.taskId)}>
@@ -66,6 +76,9 @@ const ToDoItem = ({taskList, removeTask}) => {
             </div>
             )
           })}
+          <Link to="/completed-tasks">
+            <p style={{textAlign: 'center'}}>See all completed tasks</p>
+          </Link>
         </List> 
       </Paper>
     </Grid>
@@ -74,6 +87,5 @@ const ToDoItem = ({taskList, removeTask}) => {
 }
 
 export default ToDoItem;
-
 
 

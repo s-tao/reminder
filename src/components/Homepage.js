@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Login from './Login.js';
 import Register from './Register.js';
 import TodoList from './TodoList.js';
+import CompletedTasks from './CompletedTasks.js';
 import { Grid, Button } from '@material-ui/core';
 
 const Homepage = () => {
@@ -13,16 +14,6 @@ const Homepage = () => {
     margin: '5px'
   }
 
-//   const [userClick, setUserClick] = useState(null);
-
-//   if (userClick === 'Login') {
-//     return <Login />
-
-//   }
-
-//   if (userClick === 'Register') {
-//     return <Register />
-//   }
 
 
   return (
@@ -71,6 +62,9 @@ const Homepage = () => {
       <Route path="/todo-list">
         <TodoList />
       </Route> 
+      <Route path="/completed-tasks">
+        <CompletedTasks />
+      </Route>
     </Switch>
     </Router>
   )

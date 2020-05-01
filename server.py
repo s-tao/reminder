@@ -1,6 +1,11 @@
 from flask import Flask, session, request, jsonify
 from model import connect_to_db, db, User, Task
-from model_helper import add_user, add_task, get_user_tasks, remove_task_from_db
+from model_helper import (add_user, 
+                          add_task, 
+                          get_user_tasks, 
+                          remove_task_from_db,
+                          update_completion, 
+                          get_completed_tasks)
 from json_helpers import convert_tasks_to_json
 
 
@@ -77,6 +82,30 @@ def remove_task():
 
     # need to confirm if remove_task_from_db successfully ran
     return 'Success'
+
+
+@app.route('/completed-tasks', methods=['GET'])
+def show_completed_tasks():
+
+    user_email = session.get('user')
+    user_completed_tasks = get_completed_tasks(user_email)
+
+    json_completed_tasks = convert_tasks_to_json(user_completed_tasks)
+    # print(json_completed_tasks, 'tasks \n\n')
+
+    return jsonify(json_completed_tasks)
+
+
+@app.route('/completed-task', methods=['POST'])
+def update_completed_task():
+    """Update task to be complete in database"""
+    
+    task_id = request.get_json()
+    update_completion(task_id)
+
+    return 'Success'
+
+
 
 
 if __name__ == '__main__':

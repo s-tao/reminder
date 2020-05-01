@@ -8,10 +8,12 @@ def convert_tasks_to_json(user_tasks):
 
         task_dict['taskForm']['task'] = task.task_desc
         task_dict['taskForm']['addNote'] = task.add_notes
-        task_dict['taskForm']['completed'] = task.completed
+        task_dict['taskForm']['isComplete'] = task.completed
+
         task_dict['deadline'] = task.due_date
         task_dict['taskId'] = task.task_id
 
         tasks.append(task_dict)
+
 
     return tasks

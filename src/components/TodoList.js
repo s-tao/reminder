@@ -10,10 +10,6 @@ import {
 
 const TodoList = () => {
   
-//   const centerDiv = {
-//     display: 'grid',
-//   }
-
   const buttonStyle = {
     backgroundColor: '#ffffff',
     color: '#808080',
@@ -23,24 +19,23 @@ const TodoList = () => {
   const taskInitialState = {
     task: '',
     addNote: '',
-    completed: false
+    isComplete: false
   }
 
   const [taskList, setTaskList] = useState([]);
   const [taskForm, setTaskForm] = useState(taskInitialState);
   const [deadline, setDeadline] = useState(new Date());
-//   const [formSuccess, setFormSuccess] = useState(false);
 
   // fetch data from server, second arg triggers when to rerun useEffect
   // fetch + json are async functions
-  useEffect(()=> {
+  useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('/todo-list'); 
       const jsonResponse = await response.json();
       setTaskList(jsonResponse);
     } 
     fetchData();
-    // console.log('fetch: success')
+    console.log('fetch: success');
   }, []);
 
 
@@ -95,71 +90,101 @@ const TodoList = () => {
     } catch (error) {
         console.log(`Error: ${error}`)
     }
-  }
+  };
 
+  const completedTask = async (taskId) => {
+    try {
+      const response = await fetch('/completed-task', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: taskId
+      });
 
+      if (response.ok) {
+        // changes isComplete in task to true
+        // setTaskList(taskList.map((task) => task.taskId === taskId ? ({...task, isComplete : true}) : task));
+        setTaskList(taskList.filter(task => task.taskId !== taskId));
+    }
+
+    } catch (error) {
+        console.log(`Error: ${error}`)
+    }
+  };
+  
   return (
-    <Grid>
+    <Grid container 
+          justify="center">
       <Grid item xs={12}
             container 
             justify="center"
             alignItems="center"
             alignContent="center">
-    <form onSubmit={handleSubmit}>
-      <div>
-        {/* can create 1 TextFieljd to reuse */}
-        <TextField
-          required id="standard-multiline-flexible"
-          label="Task"
-          name="task"
-          multiline
-          rowsMax={4}
-          onChange={handleChange}
-          value={taskForm.task}
-          style={{margin: '0 5px 0 0'}}
-        />
-        <TextField
-          id="standard-multiline-flexible"
-          label="Additional Notes"
-          name="addNote"
-          multiline
-          rowsMax={4}
-          onChange={handleChange}
-          value={taskForm.addNote}
-          style={{margin: '0 0 0 5px'}}
-        />
-      </div>  
-      <div>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            margin="normal"
-            id="date-picker-dialog"
-            label="Set Deadline"
-            format="MM/dd/yyyy"
-            value={deadline}
-            onChange={handleDateChange}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
+      <form onSubmit={handleSubmit}>
+        <div>
+          {/* can create 1 TextFieljd to reuse */}
+          <TextField
+            required id="standard-multiline-flexible"
+            label="Task"
+            name="task"
+            multiline
+            rowsMax={4}
+            onChange={handleChange}
+            value={taskForm.task}
+            style={{margin: '0 5px 0 0'}}
           />
-        </MuiPickersUtilsProvider>
-      </div>
-      <Button 
-        variant="contained" 
-        style={buttonStyle} 
-        type="submit">
-          Submit
-      </Button>
-    </form>
-    </Grid>
-    <Grid item xs={12}
-          container 
-          justify="center"
-          alignItems="center"
-        //   alignContent="center"
-          className="todo-container">
-      <ToDoItem taskList={taskList} removeTask={removeTask} />
-    </Grid>
+          <TextField
+            id="standard-multiline-flexible"
+            label="Additional Notes"
+            name="addNote"
+            multiline
+            rowsMax={4}
+            onChange={handleChange}
+            value={taskForm.addNote}
+            style={{margin: '0 0 0 5px'}}
+          />
+        </div>  
+        <div>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              margin="normal"
+              id="date-picker-dialog"
+              label="Set Deadline"
+              format="MM/dd/yyyy"
+              value={deadline}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </div>
+        <Button 
+          variant="contained" 
+          style={buttonStyle} 
+          type="submit">
+            Submit
+        </Button>
+      </form>
+      </Grid>
+      {/* <Grid item xs={10}
+            container
+            justify="center">
+        <p style={{textAlign: "center"}}>
+          <em>Activate the star icon if you want text reminders. You will receive a
+          text 24 hours before your task is due.</em>
+        </p>         
+      </Grid> */}
+      <Grid item xs={12} 
+            container 
+            justify="center"
+            alignItems="center"
+            className="todo-container">
+        <ToDoItem taskList={taskList} 
+                  removeTask={removeTask}
+                  completedTask={completedTask} />
+      </Grid>
     </Grid>
   );
 }

@@ -23,6 +23,8 @@ a:hover {
 }
 
 .todo-container {
+  min-width: 375px;
+  max-width: 500px !important;
   max-height: 325px;
   overflow: auto;
   margin: 0 0 5px 0 !important;

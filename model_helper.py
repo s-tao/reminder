@@ -27,7 +27,7 @@ def add_task(task_info, user_email):
                 add_notes=task_info['taskForm']['addNote'],
                 created_date=today,
                 due_date=task_info['deadline'],
-                completed=task_info['taskForm']['completed'],
+                completed=task_info['taskForm']['isComplete'],
                 user_id=user.user_id
                 )
     
@@ -40,10 +40,20 @@ def add_task(task_info, user_email):
 
 
 def get_user_tasks(user_email):
+    """Query all of user's tasks"""
     user = User.query.filter(User.email == user_email).first()
-    user_tasks = Task.query.filter(Task.user_id == user.user_id).all()
-
+    user_tasks = Task.query.filter(Task.user_id == user.user_id,
+                                        Task.completed == False).all()
     return user_tasks
+
+def get_completed_tasks(user_email):
+    """Query all of user's completed tasks"""
+
+    user = User.query.filter(User.email == user_email).first()
+    completed_tasks = Task.query.filter(Task.user_id == user.user_id,
+                                        Task.completed == True).all()
+
+    return completed_tasks
 
 
 def remove_task_from_db(task_id):
@@ -52,3 +62,13 @@ def remove_task_from_db(task_id):
     Task.query.filter(Task.task_id == task_id).delete()
 
     db.session.commit()
+
+
+def update_completion(task_id):
+    """Update to show task is completed in database"""
+
+    task = Task.query.filter(Task.task_id == task_id).first()
+    task.completed = True
+
+    db.session.commit()
+
