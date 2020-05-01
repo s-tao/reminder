@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Grid, Button, TextField } from '@material-ui/core';
+import BackLink from './BackLink.js';
 
 
 const Register = () => {
@@ -62,15 +63,7 @@ const Register = () => {
 
   return ( 
     <Grid>
-      <Grid item xs={12}
-         container 
-          justify="center"
-          alignItems="center"
-          alignContent="center">
-        <Link to="/">
-          <p>BACK</p>
-        </Link>
-      </Grid>
+      <BackLink selectedLink={'/'} />
       <Grid>
         <form onSubmit={handleSubmit}>
           <div>
@@ -125,7 +118,7 @@ const Register = () => {
             variant="contained" 
             style={buttonStyle} 
             type="submit">
-              Register
+              Submit
           </Button>
         </form>
       </Grid>

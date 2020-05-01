@@ -5,7 +5,9 @@ import Homepage from './components/Homepage.js';
 // import TodoList from './components/TodoList';
 
 function App() {
-  
+  // const currentRoute= window.location.pathname
+  // console.log(currentRoute, 'curr')
+
   return (
     <Grid container 
           justify="center"
@@ -13,7 +15,6 @@ function App() {
           alignContent="center"
           style={{minHeight: '100vh'}}>
       <Homepage />
-      {/* <TodoList /> */}
     </Grid>
   );
 }

@@ -100,17 +100,14 @@ const TodoList = () => {
           'Content-Type': 'application/json',
         },
         body: taskId
-      });
-
-      if (response.ok) {
+      }); if (response.ok) {
         // changes isComplete in task to true
         // setTaskList(taskList.map((task) => task.taskId === taskId ? ({...task, isComplete : true}) : task));
-        setTaskList(taskList.filter(task => task.taskId !== taskId));
-    }
-
+            setTaskList(taskList.filter(task => task.taskId !== taskId));
+       }
     } catch (error) {
         console.log(`Error: ${error}`)
-    }
+     }
   };
   
   return (
@@ -180,7 +177,8 @@ const TodoList = () => {
             container 
             justify="center"
             alignItems="center"
-            className="todo-container">
+            className="todo-container"
+            style={{padding:'0 0 15px 0'}}>
         <ToDoItem taskList={taskList} 
                   removeTask={removeTask}
                   completedTask={completedTask} />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link, Switch, Redirect } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 import { Grid, Button, TextField } from '@material-ui/core';
+import BackLink from './BackLink.js';
 
 const Login = () => {
   
@@ -69,15 +70,7 @@ const Login = () => {
 
   return (
     <Grid>
-      <Grid item xs={12}
-         container 
-          justify="center"
-          alignItems="center"
-          alignContent="center">
-        <Link to="/">
-          <p>BACK</p>
-        </Link>
-      </Grid>
+      <BackLink selectedLink={'/'} />
       <Grid>
         <form onSubmit={handleSubmit}>
           <div>
@@ -103,7 +96,7 @@ const Login = () => {
             variant="contained" 
             style={buttonStyle} 
             type="submit">
-              Login
+              Submit
           </Button>
         </form>
       </Grid>

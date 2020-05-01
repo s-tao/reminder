@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import BackLink from './BackLink.js';
+// import { Link } from 'react-router-dom';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { 
     Grid, 
@@ -56,19 +57,8 @@ const CompletedTasks = () => {
         justify="center"
         alignItems="center"
         alignContent="center">
-        <Grid 
-          item xs={12}
-          container 
-          justify="center"
-          alignItems="center"
-          alignContent="center">
-          <Link to="/todo-list">
-            <p>BACK</p>
-          </Link>
-        </Grid>
-        <Grid>
+          <BackLink selectedLink={'/todo-list'} />
           <p><em>You have not completed any tasks yet.</em></p>
-        </Grid>
       </Grid>
     )
   }
@@ -79,15 +69,7 @@ const CompletedTasks = () => {
       item xs={12} md={12}
       container 
       justify="center">
-      <Grid item xs={12}
-         container 
-          justify="center"
-          alignItems="center"
-          alignContent="center">
-        <Link to="/todo-list">
-          <p>BACK</p>
-        </Link>
-      </Grid> 
+      <BackLink selectedLink="/todo-list" />
       <Grid item xs={12} 
             container 
             justify="center"

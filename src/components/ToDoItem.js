@@ -17,8 +17,8 @@ import {
 
 
 const ToDoItem = ({taskList, removeTask, completedTask}) => {
-
-  console.log(taskList, 'taskList')
+    
+//   console.log(taskList, 'taskList')
   // handles function from parent component, passes selected taskId back
   const removeClickHandler = (taskId) => {
     removeTask(taskId);
