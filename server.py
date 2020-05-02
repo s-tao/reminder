@@ -1,4 +1,5 @@
 from flask import Flask, session, request, jsonify
+from celery import Celery
 from model import connect_to_db, db, User, Task
 from model_helper import (add_user, 
                           add_task, 
@@ -7,10 +8,65 @@ from model_helper import (add_user,
                           update_completion, 
                           get_completed_tasks)
 from json_helpers import convert_tasks_to_json
-
+from send_sms import send_reminder
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.secret_key = 'TEMP'
+# using Redis as broker for Celery 
+app.config.update(
+    CELERY_BROKER_URL='redis://localhost:6379',
+    CELERY_RESULT_BACKEND='redis://localhost:6379'
+)
+
+# create Celery instance to integrate with Flask
+def make_celery(app):
+    celery = Celery(
+        app.import_name,
+        backend=app.config['CELERY_RESULT_BACKEND'],
+        broker=app.config['CELERY_BROKER_URL']
+    )
+    celery.conf.update(app.config)
+
+    class ContextTask(celery.Task):
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return self.run(*args, **kwargs)
+
+    celery.Task = ContextTask
+    return celery
+
+celery = make_celery(app)
+celery.conf.update(app.config)
+
+
+@celery.task()
+def send_sms_reminder():        
+    # users_opt_in_tasks = db.session.query(User).select_from(Task).\
+    #                         join(Task.user_id).filter(User.phone != None, Task.completed == False)
+
+    # query all users who input phone number to opt in for text reminders
+    users_opt_in = User.query.filter(User.phone != None).all()
+    today = datetime.today()
+
+    for user in users_opt_in:
+        # query all tasks from user where task is not completed
+        user_tasks = Task.query.filter(Task.completed == False).all()
+
+        tasks_due = []
+
+        for task in user_tasks:
+        
+            time_diff = today + timedelta(hours=24)
+
+            if time_diff >= task.due_date:
+                tasks_due.append(task)
+        print('this executes')
+        send_reminder(user, tasks_due)
+
+
+            
+
 
 
 @app.route('/register', methods=['POST'])
@@ -57,7 +113,8 @@ def get_todo():
     user_tasks = get_user_tasks(user_email)
 
     tasks = convert_tasks_to_json(user_tasks)
-    
+
+
     return jsonify(tasks)
 
 
@@ -104,6 +161,7 @@ def update_completed_task():
     update_completion(task_id)
 
     return 'Success'
+
 
 
 

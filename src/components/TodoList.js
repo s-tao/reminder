@@ -73,8 +73,8 @@ const TodoList = () => {
     setTaskForm({...taskInitialState})
     setDeadline(new Date())
   }
- 
-  // create function to remove task at parent component to pass to child
+   
+  // could be in its own component to reuse w/ completed Task, change fetch route
   const removeTask = async (taskId) => {
     try {
       const response = await fetch('/remove-task', {

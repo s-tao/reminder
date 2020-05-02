@@ -5,12 +5,19 @@ from datetime import date
 def add_user(user_input):
     """Save user information into database"""
 
+    if user_input['phone']:
+        phone = "".join(num for num in user_input['phone'] if num.isdigit())
+        phone_format = '+' + phone
+
+    else:
+        phone_format = user_input['phone']
+        
     new_user = User(
                 first_name=user_input['firstName'],
                 last_name=user_input['lastName'],
                 password=user_input['password'],
                 email=user_input['email'],
-                phone=user_input['phone']
+                phone=phone_format
                 )
 
     db.session.add(new_user)

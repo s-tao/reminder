@@ -17,7 +17,7 @@ const Register = () => {
     firstName: '',
     lastName: '',
     email: '',
-    phone: '',
+    phone: null,
     password: ''
   }
 
@@ -97,7 +97,7 @@ const Register = () => {
         {/* need to validate phone number later */}
             <TextField 
               id="standard-helperText" 
-              label="Phone" 
+              label="Phone (ex: 1-234-567-8910)" 
               name="phone"
               value={registerFormState.phone}
               onChange={handleChange}
