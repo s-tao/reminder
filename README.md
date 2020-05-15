@@ -58,12 +58,14 @@ Create database
 $ createdb todo-list
 $ python3 model.py
 ``` 
+Set up a cron job and write a script to execute `send_sms.py` at the time interval of your choice.
+
 Run the app
 ```
 $ python3 server.py
 $ npm start
 ```
-View to-do list on localhost:3000 on your browser
+View to-do list on localhost:3000 on your browser. 
 
 ## <a name=features></a> To-do List Features
 **Login/Register** <br>
@@ -87,4 +89,5 @@ into a separate page.
 ![](/README_gif/complete-remove-task.gif)
 
 **Receive Text Reminder**
-<img src="/README_gif/twilio-sms-reminder.png" alt="Twilio SMS Reminder"/>
+
+<img src="/README_gif/twilio-sms-reminder.png" alt="Twilio SMS Reminder" width=350px/>
