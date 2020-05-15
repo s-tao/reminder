@@ -19,8 +19,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## <a name=techstack></a>Tech Stack
 
-**Backend |** Python, Flask, SQLAlchemy, PostgreSQL, cron
-**Frontend |** React.js, Material-UI
+**Backend |** Python, Flask, SQLAlchemy, PostgreSQL, cron<br>
+**Frontend |** React.js, Material-UI<br>
 **APIs |** Twilio
 
 ## <a name=install></a>Installation
@@ -63,7 +63,7 @@ Run the app
 $ python3 server.py
 $ npm start
 ```
-View todo-list on localhost:3000 on your browser
+View to-do list on localhost:3000 on your browser
 
 ## <a name=features></a> To-do List Features
 **Login/Register** <br>
