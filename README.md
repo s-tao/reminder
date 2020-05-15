@@ -87,4 +87,5 @@ into a separate page.
 ![](/README_gif/complete-remove-task.gif)
 
 **Receive Text Reminder**
-<img src="/README_gif/twilio-sms-reminder.png" alt="Twilio SMS Reminder"/>
+
+<img src="/README_gif/twilio-sms-reminder.png" alt="Twilio SMS Reminder" width=350px/>
