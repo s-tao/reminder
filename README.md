@@ -7,7 +7,7 @@ the task(s) that are due in 24 hours.
 
 This project was created to learn the fundamentals of React.js. 
 
-<img src="/README_gif/homepage.png" alt="Reminder homepage" />
+<img src="/README_gif/web-homepage.png" alt="Reminder homepage" />
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
